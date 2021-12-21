@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/e6126e23-dde0-4e85-9557-ae61cbda0e76/resourceGroups/flaskwebapp/providers/Microsoft.Web/sites/ZimraF2",
+    "appService.deploySubpath": "."
+}

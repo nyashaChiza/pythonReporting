@@ -2,9 +2,9 @@ from flask import Flask, render_template, request, url_for, session, send_from_d
 from mailmerge import MailMerge
 import os
 import random
-import xlwings as xw
+#import xlwings as xw
 app = Flask(__name__)
-requirements
+"""
 def get_data(path):
     wb = xw.Book(path)
     sht = wb.sheets
@@ -99,9 +99,8 @@ def get_data(path):
     values['tt2'] = int(PAYETaxZWL+AidsLevy)
     values['tt3'] = int(PAYETax+AidsZWL)
     values['tt4'] = int(TaxUSD+AidsUSD)
-    print(values)
     return values
-
+"""
 def gen_report(data1, data2):
     document = MailMerge('static/templates/temp.docx')
     document.merge(
