@@ -2,91 +2,101 @@ from flask import Flask, render_template, request, url_for, session, send_from_d
 from mailmerge import MailMerge
 import os
 import random
-import xlwings as xw
+import openpyxl
 app = Flask(__name__)
 
 def get_data(path):
-    wb = xw.Book(path)
-    sht = wb.sheets
-    data1 = sht[0].range('F6:F500').value
-    data2 = sht[0].range('I6:I500').value
-    data3 = sht[0].range('J6:J500').value
-    data4 = sht[0].range('K6:K500').value
-    data5 = sht[0].range('L6:L500').value
-    data6 = sht[0].range('M6:M500').value
-    data7 = sht[0].range('N6:N500').value
-    data8 = sht[0].range('O6:O500').value
-    data9 = sht[0].range('P6:P500').value
-    data10 = sht[0].range('H6:H500').value
-
-    TaxUSD = 0
-    AidsUSD = 0
-    AidsZWL= 0
-    PAYETax = 0
-    totalEarningsUSD = 0
+    wb = openpyxl.load_workbook(path)
+    ws = wb.active
+    AidsUSD =0
     AidsLevy = 0
-    PAYETaxZWL= 0
-    totalEarningsZWL = 0
+    TaxUSD = 0
+    GrossIncomeUSD = 0
     totalFringeB = 0
-    ne = 0
-    GrossIncomeUSD=0
-    #--------------------------------------------------
-    for item in data1:
-            if item != None:
-                TaxUSD = TaxUSD  + item
+    AidsZWL =0
+    PAYETax= 0
+    PAYETaxZWL=0
+    totalEarningsUSD=0
+    totalEarningsZWL = 0
+    cols = [6,8,9,10,11,12,13,14,15,16]
+    for i in cols:
+        for x in (range(6,ws.max_row+1)):
+            if i == 6:
+                try:
+                    AidsUSD = AidsUSD + ws.cell(row=x, column=i).value
+                    
+                except:
+                        continue
+            if i == 8:
+                try:
+                    GrossIncomeUSD = GrossIncomeUSD + ws.cell(row=x, column=i).value
+                    
+                except:
+                        continue
+            if i == 9:
+                try:
+                    TaxUSD = TaxUSD + ws.cell(row=x, column=i).value
+                    
+                except:
+                        continue
+            if i == 10:
+                try:
+                    AidsZWL = AidsZWL + ws.cell(row=x, column=i).value
+                except:
+                        continue
 
-    for item in data2:
-            if item != None:
-                AidsUSD = AidsUSD  + item
+            if i == 11:
+                try:
+                    PAYETax = PAYETax + ws.cell(row=x, column=i).value
+                except:
+                        continue
+            if i == 12:
+                try:
+                    totalEarningsUSD = totalEarningsUSD + ws.cell(row=x, column=i).value
+                except:
+                        continue
+            if i == 13:
+                try:
+                    AidsLevy = AidsLevy + ws.cell(row=x, column=i).value
+                except:
+                        continue
+            if i == 14:
+                try:
+                    PAYETaxZWL = PAYETaxZWL + ws.cell(row=x, column=i).value
+                except:
+                        continue
 
-    for item in data3:
-            if item != None:
-                AidsZWL = AidsZWL  + item
-     
-    for item in data4:
-            if item != None:
-                PAYETax = PAYETax  + item
-            
-    for item in data4:
-            if item != None:
-                PAYETax = PAYETax  + item
-    for item in data5:
-            if item != None:
-                totalEarningsUSD = totalEarningsUSD  + item
-    for item in data6:
-            if item != None:
-                AidsLevy = AidsLevy  + item
-    for item in data7:
-            if item != None:
-                PAYETaxZWL = PAYETaxZWL  + item
-    for item in data8:
-            if item != None:
-                totalEarningsZWL = totalEarningsZWL  + item
-        
-    for item in data9:
-            if item != None:
-                totalFringeB = totalFringeB  + item
-                ne = ne + 1
-    for item in data10:
-            if item != None:
-                GrossIncomeUSD = GrossIncomeUSD  + item
+            if i == 15:
+                try:
+                    totalEarningsZWL = totalEarningsZWL + ws.cell(row=x, column=i).value
+                except:
+                        continue
 
+            if i == 16:
+                try:
+                    totalFringeB = totalFringeB + ws.cell(row=x, column=i).value
+                except:
+                        continue
 #--------------------------------------------------
-    TaxUSD = TaxUSD/2
-    AidsUSD = AidsUSD/2
-    AidsZWL = AidsZWL/2
-    totalFringeB =totalFringeB/2
-    totalEarningsZWL=totalEarningsZWL/2
-    AidsLevy= AidsLevy/2
-    totalEarningsUSD =totalEarningsUSD/2
-    PAYETax =PAYETax/2
+    print('TaxUSD: ',int(TaxUSD))
+    print('GrossIncomeUSD: ',int(GrossIncomeUSD))    
+#--------------------------------------------------
+ #   TaxUSD = TaxUSD/2
+  #  TaxUSD = TaxUSD/2
+   # AidsUSD = AidsUSD/2
+    #AidsZWL = AidsZWL/2
+    #totalFringeB =totalFringeB/2
+    #totalEarningsZWL=totalEarningsZWL/2
+    #AidsLevy= AidsLevy/2
+    #totalEarningsUSD =totalEarningsUSD/2
+    #PAYETax =PAYETax/2
 #--------------------------------------------------
     values = {}
     values['tr1'] = int(totalEarningsUSD+totalEarningsZWL+totalFringeB)
     values['tr2'] =  int(totalEarningsZWL+totalFringeB)
     values['tr3'] = int(totalEarningsUSD)
     values['tr4'] = int(GrossIncomeUSD)
-    values['ne'] = ne
+    values['ne'] = ws.max_row-6
     values['gp1'] = int(PAYETax+ PAYETaxZWL)
     values['gp2'] = int(PAYETaxZWL)
     values['gp3'] = int(PAYETax)
