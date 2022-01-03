@@ -150,10 +150,22 @@ def gen_report(data1, data2):
     except:
         document.write(doc_path)
     return str(data1.get('ename'))+str('.docx')
-
-
+#-------------------------------------------------------------
 @app.route('/', methods=['POST','GET'])
 def index():
+    error = 'none'
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        if email =='client@petalmafrica.com' and password == 'client@123':
+            return home()
+        else:
+            error = 'invalid log in details'
+    template = 'sign-in.html'
+    return render_template(template, error = error)
+
+@app.route('/home/', methods=['POST','GET'])
+def home():
     if request.files and request.method == 'POST' :
         file = request.files['file']
         try:
@@ -162,23 +174,54 @@ def index():
         except:
             file.save(os.path.join("static/uploads/", file.filename))
         data = request.form.to_dict()
-        doc_path =  gen_report(data, get_data(os.path.join("static/uploads/", file.filename)))
-        return reports()
+        try:
+            doc_path =  gen_report(data, get_data(os.path.join("static/uploads/", file.filename)))
+            return reports('Document was saved successfully')
+        except Exception as e:
+            print(e)
+            return reports('failed to save document')
     template = 'index.html'
     return render_template(template)
 
-@app.route("/reports")
-def reports():
+@app.route("/reports/<string:error>/")
+def reports(error):
     onlyfiles = [f for f in os.listdir('static/reports')]
     template = 'reports.html'
-    return render_template(template,files=onlyfiles)
+    return render_template(template,files=onlyfiles, error = error)
+
+
+@app.route("/new")
+def new():
+    template = 'new.html'
+    return render_template(template)
 
 
 @app.route("/download/<string:name>")
 def download(name):
     download_file = name
     print('downloading ',name)
-    return send_from_directory(directory='static/reports',filename=download_file) 
+    try:
+        return send_from_directory(directory='static/reports',filename=download_file) 
+    except Exception as e:
+        print(e)
+        return reports('failed to download file')
+        
+
+@app.route("/delete/<string:name>")
+def delete(name):
+    error = 'Document Deleted Successfully'
+    try:
+        os.remove('static/reports/'+name)
+    except Exception as e:
+        print(e)
+        error = 'Failed to delete File'
+    print('deleting ',name)
+    return reports(error)
+
+@app.route("/logout/")
+def logout():
+    #session['user'] = None
+    return index() 
 
 
 if __name__ == '__main__':

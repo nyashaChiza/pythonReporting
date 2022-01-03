@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Petalm Africa</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'css/bootstrap.min.css')}}">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <link rel="stylesheet" href="{{url_for('static', filename = 'css/style.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename = 'css/style2.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename = 'css/main.css')}}">
+  <!-- Bootstrap core CSS -->
+  <link href="{{url_for('static', filename = 'vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{{url_for('static', filename = 'css/scrolling-nav.css')}}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top"> <img height =79 width=112 src='{{url_for("static", filename="images/Petalm-logo.png")}}'></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+      
+      </div>
+    </div>
+  </nav>
+  <nav class= text-white">
+    <div class="container text-dark text-center">
+      <h1>Welcome to Petalm Africa </h1>
+    </div>
+  </nav>
+  {% if error != 'none' %}
+  <header>
+                 <div class="mx-auto text-center col-md-7 alert alert-danger alert-dismissible fade show" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                  </button>
+                  <strong>{{error}}</strong> 
+                </div>   
+                </header>
+                {% endif %}
+  <section class="ftco-section skill"  id="services" class="bg-light">
+     <div class="container col-md-7">
+      <nav class="navbar navbar-expand-md container bg-light" >
+               <div class="container col-md-11 bg-light ">
+                
+                
+              <div class="col-md-11 mx-auto bg-light" >
+                  <br>
+                <h2 class="text-muted text-center">Please Sign In</h2>
+                <br> 
+                <form action = '{{ url_for("index")}}' enctype='multipart/form-data' method = 'POST'>
+                
+                  <div class="form-floating col-md-10 mx-auto mb-3">
+                  <input type="email" required name='email' class="form-control" id="floatingInput" placeholder="1. Employer's Name">
+                  <label for="floatingInput">&nbsp; Email</label>
+                  </div>
+                  <div class="form-floating col-md-10 mx-auto mb-3">
+                  <input type="password" required name='password'  class="form-control" id="floatingPassword" placeholder="Trade Name">
+                  <label for="floatingPassword">&nbsp; Password</label>
+                  </div>
+                   <div class="form-floating col-md-10 mx-auto mb-3">
+                  <button type="submit" class="btn btn-primary">&nbsp; Sign In</button>
+                 
+                  </div>
+                  
+                </form>
+                <br>
+                </div>
+               
+                    </div>
+          </div>
+      </nav>
+      <br><br><br><br>
+    <!-- END nav -->
+  </div>
+
+  </section>
+  
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Petalm Africa Group 2022</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{{url_for('static', filename = 'vendor/jquery/jquery.min.js')}}"></script>
+  <script src="{{url_for('static', filename = 'vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="{{url_for('static', filename = 'vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script src="{{url_for('static', filename = 'js/scrolling-nav.js')}}"></script>
+
+
+<script src="js/jquery.min.js {{url_for('static', filename = 'js/jquery.min.js')}}"></script>
+<script src=" {{url_for('static', filename = 'js/popper.js')}}"></script>
+<script src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+<script src=" {{url_for('static', filename = 'js/main.js')}}"></script>
+<script src=" {{url_for('static', filename = 'js/main1.js')}}"></script>
+</body>
+</html>

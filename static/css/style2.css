@@ -1,0 +1,10 @@
+.menu2{
+    border-color: #3b3d3a;
+    border: width 3px;
+    border-radius: 10%;
+    -webkit-border-radius: 10%;
+    -moz-border-radius: 10%;
+    -ms-border-radius: 10%;
+    -o-border-radius: 10%;
+}
+

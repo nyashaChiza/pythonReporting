@@ -1,29 +1,28 @@
-<html>
-   <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title></title>
-      <meta name="description" content="">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'css/bootstrap.min.css')}}">
-   
-     
-   </head>
-   <body>
-   <br>
-      <div class='text-header bg-light text-center col-md-12 mx-auto'>
-	  <span class = 'h2 text-center  mx-auto'> ZIMRA P2 Reports </span>
-	  </div>
-	  <br><br>
-        <div class="col-md-8 mx-auto bg-light" >
+{% extends 'layout.html' %}
+{% block body %} 
+<section>
+<nav class= text-white">
+  <div class="container text-dark text-center">
+    <h1>ZIMRA F2 Reports</h1>
+  </div>
+</nav>
+{% if error != 'none' %}
+<div class="mx-auto text-center col-md-7 alert alert-primary alert-dismissible fade show" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    <span class="sr-only">Close</span>
+  </button>
+  <strong>{{error}}</strong> 
+</div>   
+{% endif %}
 		<br>
 <div class="jumbotron col-md-10 mx-auto bg-light ">
 <table class="table">
-    <thead class="thead-dark">
+    <thead class="thead-light">
       <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
-        <th scope="col">Action</th>
+        <th scope="col">Actions</th>
            </tr>
     </thead>
     <tbody>
@@ -33,15 +32,15 @@
         <th scope="row">*</th>
        
         <td>{{ item }}</td>
-        <td><a href="{{ url_for('download',name=item) }}"><button type="button" class="btn btn-primary btn-sm">Download</button></a></td>
+        <td><a href="{{ url_for('download',name=item) }}"><button type="button" class="btn btn-primary btn-sm">Download</button></a>
+        || <a href="{{ url_for('delete',name=item) }}"><button type="button" class="btn btn-danger btn-sm">Delete</button></a></td>
       </tr>
       {% endfor%}
     </tbody>
 </table>
-<a href="{{ url_for('index') }}"><button type="button" class="btn btn-danger btn-md">Back</button></a>
+<a href="{{ url_for('home') }}"><button type="button" class="btn btn-warning btn-md">Back</button></a>
 <br>
 </div>
-<br><br>
-    <script src="" async defer></script>
-</body>
-</html>
+</div>
+</section>
+{% endblock %}
