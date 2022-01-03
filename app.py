@@ -190,12 +190,6 @@ def reports(error):
     return render_template(template,files=onlyfiles, error = error)
 
 
-@app.route("/new")
-def new():
-    template = 'new.html'
-    return render_template(template)
-
-
 @app.route("/download/<string:name>")
 def download(name):
     download_file = name
