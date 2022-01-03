@@ -12,7 +12,7 @@ header{% extends 'layout.html' %}
                     <br>
                     <h2 class="text-muted text-center">Please Enter The Folloing</h2>
                     <br>
-                    <form action = '{{ url_for("index")}}' enctype='multipart/form-data' method = 'POST'>
+                    <form action = '{{ url_for("home")}}' enctype='multipart/form-data' method = 'POST'>
                     
                       <div class="form-floating col-md-10 mx-auto mb-3">
                       <input type="text" required name='ename' class="form-control" id="floatingInput" placeholder="1. Employer's Name">
