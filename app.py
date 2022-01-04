@@ -78,8 +78,6 @@ def get_data(path):
                 except:
                         continue
 #--------------------------------------------------
-    print('TaxUSD: ',int(TaxUSD))
-    print('GrossIncomeUSD: ',int(GrossIncomeUSD))    
 #--------------------------------------------------
  #   TaxUSD = TaxUSD/2
   #  TaxUSD = TaxUSD/2
@@ -92,23 +90,24 @@ def get_data(path):
     #PAYETax =PAYETax/2
 #--------------------------------------------------
     values = {}
-    values['tr1'] = int(totalEarningsUSD+totalEarningsZWL+totalFringeB)
-    values['tr2'] =  int(totalEarningsZWL+totalFringeB)
-    values['tr3'] = int(totalEarningsUSD)
-    values['tr4'] = int(GrossIncomeUSD)
+    values['tr1'] = '{:.2f}'.format(totalEarningsUSD+totalEarningsZWL+totalFringeB)
+    print('{:,}'.format('{:.2f}'.format(totalEarningsUSD+totalEarningsZWL+totalFringeB)))
+    values['tr2'] =  '{:.2f}'.format(totalEarningsZWL+totalFringeB)
+    values['tr3'] = '{:.2f}'.format(totalEarningsUSD)
+    values['tr4'] = '{:.2f}'.format(GrossIncomeUSD)
     values['ne'] = ws.max_row-6
-    values['gp1'] = int(PAYETax+ PAYETaxZWL)
-    values['gp2'] = int(PAYETaxZWL)
-    values['gp3'] = int(PAYETax)
-    values['gp4'] = int(TaxUSD)
-    values['al1'] = int(AidsZWL+AidsLevy)
-    values['al2'] = int(AidsLevy)
-    values['al3'] = int(AidsZWL)
-    values['al4'] = int(AidsUSD)
-    values['tt1'] = int(PAYETax+PAYETaxZWL+AidsZWL+AidsLevy)
-    values['tt2'] = int(PAYETaxZWL+AidsLevy)
-    values['tt3'] = int(PAYETax+AidsZWL)
-    values['tt4'] = int(TaxUSD+AidsUSD)
+    values['gp1'] = '{:.2f}'.format(PAYETax+ PAYETaxZWL)
+    values['gp2'] = '{:.2f}'.format(PAYETaxZWL)
+    values['gp3'] = '{:.2f}'.format(PAYETax)
+    values['gp4'] = '{:.2f}'.format(TaxUSD)
+    values['al1'] = '{:.2f}'.format(AidsZWL+AidsLevy)
+    values['al2'] = '{:.2f}'.format(AidsLevy)
+    values['al3'] = '{:.2f}'.format(AidsZWL)
+    values['al4'] = '{:.2f}'.format(AidsUSD)
+    values['tt1'] = '{:.2f}'.format(PAYETax+PAYETaxZWL+AidsZWL+AidsLevy)
+    values['tt2'] = '{:.2f}'.format(PAYETaxZWL+AidsLevy)
+    values['tt3'] = '{:.2f}'.format(PAYETax+AidsZWL)
+    values['tt4'] = '{:.2f}'.format(TaxUSD+AidsUSD)
     return values
 
 def gen_report(data1, data2):
@@ -125,6 +124,7 @@ def gen_report(data1, data2):
             email= data1.get('email'),
             tax_period= data1.get('tax_period'),
             due_date= data1.get('due_date'),
+            rate= data1.get('rate'),
             tr1 = str(data2.get('tr1')),
             tr2 = str(data2.get('tr2')),
             tr3 = str(data2.get('tr3')),
@@ -175,7 +175,7 @@ def home():
             file.save(os.path.join("static/uploads/", file.filename))
         data = request.form.to_dict()
         try:
-            doc_path =  gen_report(data, get_data(os.path.join("static/uploads/", file.filename)))
+            gen_report(data, get_data(os.path.join("static/uploads/", file.filename)))
             return reports('Document was saved successfully')
         except Exception as e:
             print(e)
