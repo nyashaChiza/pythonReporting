@@ -91,7 +91,7 @@ def get_data(path):
 #--------------------------------------------------
     values = {}
     values['tr1'] = '{:.2f}'.format(totalEarningsUSD+totalEarningsZWL+totalFringeB)
-    print('{:,}'.format('{:.2f}'.format(totalEarningsUSD+totalEarningsZWL+totalFringeB)))
+   
     values['tr2'] =  '{:.2f}'.format(totalEarningsZWL+totalFringeB)
     values['tr3'] = '{:.2f}'.format(totalEarningsUSD)
     values['tr4'] = '{:.2f}'.format(GrossIncomeUSD)
