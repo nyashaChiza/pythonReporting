@@ -90,24 +90,23 @@ def get_data(path):
     #PAYETax =PAYETax/2
 #--------------------------------------------------
     values = {}
-    values['tr1'] = '{:.2f}'.format(totalEarningsUSD+totalEarningsZWL+totalFringeB)
-   
-    values['tr2'] =  '{:.2f}'.format(totalEarningsZWL+totalFringeB)
-    values['tr3'] = '{:.2f}'.format(totalEarningsUSD)
-    values['tr4'] = '{:.2f}'.format(GrossIncomeUSD)
+    values['tr1'] = '{:.2f}'.format((totalEarningsUSD+totalEarningsZWL+totalFringeB)/2)
+    values['tr2'] =  '{:.2f}'.format((totalEarningsZWL+totalFringeB)/2)
+    values['tr3'] = '{:.2f}'.format((totalEarningsUSD)/2)
+    values['tr4'] = '{:.2f}'.format((GrossIncomeUSD)/2)
     values['ne'] = ws.max_row-6
-    values['gp1'] = '{:.2f}'.format(PAYETax+ PAYETaxZWL)
-    values['gp2'] = '{:.2f}'.format(PAYETaxZWL)
-    values['gp3'] = '{:.2f}'.format(PAYETax)
-    values['gp4'] = '{:.2f}'.format(TaxUSD)
-    values['al1'] = '{:.2f}'.format(AidsZWL+AidsLevy)
-    values['al2'] = '{:.2f}'.format(AidsLevy)
-    values['al3'] = '{:.2f}'.format(AidsZWL)
-    values['al4'] = '{:.2f}'.format(AidsUSD)
-    values['tt1'] = '{:.2f}'.format(PAYETax+PAYETaxZWL+AidsZWL+AidsLevy)
-    values['tt2'] = '{:.2f}'.format(PAYETaxZWL+AidsLevy)
-    values['tt3'] = '{:.2f}'.format(PAYETax+AidsZWL)
-    values['tt4'] = '{:.2f}'.format(TaxUSD+AidsUSD)
+    values['gp1'] = '{:.2f}'.format((PAYETax+ PAYETaxZWL)/2)
+    values['gp2'] = '{:.2f}'.format((PAYETaxZWL)/2)
+    values['gp3'] = '{:.2f}'.format((PAYETax)/2)
+    values['gp4'] = '{:.2f}'.format((TaxUSD)/2)
+    values['al1'] = '{:.2f}'.format((AidsZWL+AidsLevy)/2)
+    values['al2'] = '{:.2f}'.format((AidsLevy)/2)
+    values['al3'] = '{:.2f}'.format((AidsZWL)/2)
+    values['al4'] = '{:.2f}'.format((AidsUSD)/2)
+    values['tt1'] = '{:.2f}'.format((PAYETax+PAYETaxZWL+AidsZWL+AidsLevy)/2)
+    values['tt2'] = '{:.2f}'.format((PAYETaxZWL+AidsLevy)/2)
+    values['tt3'] = '{:.2f}'.format((PAYETax+AidsZWL)/2)
+    values['tt4'] = '{:.2f}'.format((TaxUSD+AidsUSD)/2)
     return values
 
 def gen_report(data1, data2):
@@ -125,6 +124,8 @@ def gen_report(data1, data2):
             tax_period= data1.get('tax_period'),
             due_date= data1.get('due_date'),
             rate= data1.get('rate'),
+            region= data1.get('region'),
+            station= data1.get('station'),
             tr1 = str(data2.get('tr1')),
             tr2 = str(data2.get('tr2')),
             tr3 = str(data2.get('tr3')),
