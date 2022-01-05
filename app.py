@@ -130,7 +130,7 @@ def gen_report(data1, data2):
             tr2 = str(data2.get('tr2')),
             tr3 = str(data2.get('tr3')),
             tr4 = str(data2.get('tr4')),
-            ne = str(data2.get('ne')),
+            ne = str(data1.get('num')),
             gp1 = str(data2.get('gp1')),
             gp2 = str(data2.get('gp2')),
             gp3 = str(data2.get('gp3')),
