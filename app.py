@@ -1,10 +1,31 @@
 from flask import Flask, render_template, request, url_for, session, send_from_directory
 from mailmerge import MailMerge
 import os
-import random
 import openpyxl
+import json
 app = Flask(__name__)
-
+#---------------------------------------------------------------------------------------------------------------------
+def save_profile(data):
+    try:
+        with open('static/profiles/profiles.json','w', encoding = 'utf-8') as f:
+            json.dump(data, f)
+            f.close()
+            return 1
+    except Exception as e:
+        print(e)
+        return 0
+    
+#---------------------------------------------------------------------------------------------------------------------
+def get_profile():
+    data = {}
+    with open('static/profiles/profiles.json','r',encoding = 'utf-8') as f:
+        try:
+            data = json.load(f)        
+        except Exception as e:
+            print(e)
+                
+    return data
+#---------------------------------------------------------------------------------------------------------------------
 def get_data(path):
     wb = openpyxl.load_workbook(path)
     ws = wb.active
@@ -77,17 +98,7 @@ def get_data(path):
                     totalFringeB = totalFringeB + ws.cell(row=x, column=i).value
                 except:
                         continue
-#--------------------------------------------------
-#--------------------------------------------------
- #   TaxUSD = TaxUSD/2
-  #  TaxUSD = TaxUSD/2
-   # AidsUSD = AidsUSD/2
-    #AidsZWL = AidsZWL/2
-    #totalFringeB =totalFringeB/2
-    #totalEarningsZWL=totalEarningsZWL/2
-    #AidsLevy= AidsLevy/2
-    #totalEarningsUSD =totalEarningsUSD/2
-    #PAYETax =PAYETax/2
+
 #--------------------------------------------------
     values = {}
     values['tr1'] = '{:.2f}'.format((totalEarningsUSD+totalEarningsZWL+totalFringeB)/2)
@@ -109,7 +120,8 @@ def get_data(path):
     values['tt4'] = '{:.2f}'.format((TaxUSD+AidsUSD)/2)
     return values
 
-def gen_report(data1, data2):
+def gen_report(data3, data2):
+    data1 = get_profile()
     document = MailMerge('static/templates/temp.docx')
     document.merge(
             ename = data1.get('ename'),
@@ -121,9 +133,9 @@ def gen_report(data1, data2):
             postal=data1.get('postal'),
             cell= data1.get('cell'),
             email= data1.get('email'),
-            tax_period= data1.get('tax_period'),
-            due_date= data1.get('due_date'),
-            rate= data1.get('rate'),
+            tax_period= data3.get('tax_period'),
+            due_date= data3.get('due_date'),
+            rate= data3.get('rate'),
             region= data1.get('region'),
             station= data1.get('station'),
             tr1 = str(data2.get('tr1')),
@@ -159,14 +171,14 @@ def index():
         email = request.form.get('email')
         password = request.form.get('password')
         if email =='client@petalmafrica.com' and password == 'client@123':
-            return home()
+            return home('none')
         else:
             error = 'invalid log in details'
     template = 'sign-in.html'
     return render_template(template, error = error)
 
-@app.route('/home/', methods=['POST','GET'])
-def home():
+@app.route('/new_report/', methods=['POST','GET'])
+def new_report():
     if request.files and request.method == 'POST' :
         file = request.files['file']
         try:
@@ -177,12 +189,28 @@ def home():
         data = request.form.to_dict()
         try:
             gen_report(data, get_data(os.path.join("static/uploads/", file.filename)))
-            return reports('Document was saved successfully')
+            return reports('Report was saved successfully')
         except Exception as e:
             print(e)
-            return reports('failed to save document')
+            return home('failed to save Report')
     template = 'index.html'
     return render_template(template)
+
+@app.route('/home/<string:error>/')
+def home(error):
+    template = 'home.html'
+    return render_template(template,error=error)
+
+@app.route('/update_profile/', methods=['POST','GET'])
+def update_profile():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        save_profile(data)
+        return home('Profile Update Successful')
+    template = 'profiles.html'
+    data = get_profile()
+    return render_template(template,data=data)
+
 
 @app.route("/reports/<string:error>/")
 def reports(error):
@@ -212,6 +240,7 @@ def delete(name):
         error = 'Failed to delete File'
     print('deleting ',name)
     return reports(error)
+
 
 @app.route("/logout/")
 def logout():

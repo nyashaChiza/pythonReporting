@@ -1,0 +1,93 @@
+header{% extends 'layout.html' %}
+{% block body %} 
+<header class= text-white">
+  <div class="container text-dark text-center">
+    <h1>Manage Profile</h1>
+  </div>
+</header>
+<br>
+<nav class="navbar navbar-expand-md container bg-light skill" >
+                   <div class="container col-md-10 bg-light ">
+                  <div class="col-md-11 mx-auto bg-light" >
+                    <br>
+                    <h2 class="text-muted text-center">Please Enter The Folloing</h2>
+                    <br>
+                    <form action = '{{ url_for("update_profile")}}' enctype='multipart/form-data' method = 'POST'>
+                    
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="text" required name='ename' class="form-control" value='{{data.get("ename")}}'  id="floatingInput" placeholder="1. Employer's Name">
+                      <label for="floatingInput">&nbsp; 1. Employer's Name</label>
+                      </div>
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="text" required name='tname'  class="form-control" value='{{data.get("tname")}}' id="floatingPassword" placeholder="Trade Name">
+                      <label for="floatingPassword">&nbsp; 2. Trade Name</label>
+                      </div>
+                      
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="number" required name='btnum' class="form-control" value='{{data.get("btnum")}}' id="floatingInput" placeholder="BusinessPartner Number">
+                      <label for="floatingInput">&nbsp; 3. BusinessPartner Number</label>
+                      </div>
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="number" required name='paye'  class="form-control"value='{{data.get("paye")}}'  id="floatingInput" placeholder="PAYE Number">
+                      <label for="floatingInput">&nbsp; 4. PAYE Number</label>
+                      </div>
+                      
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="text" required name = 'tin' class="form-control" value='{{data.get("tin")}}' id="floatingPassword" placeholder="TIN ">
+                      <label for="floatingPassword">&nbsp; 5. TIN </label>
+                      </div>
+                     
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="text" required name= 'address' class="form-control" value='{{data.get("address")}}' id="floatingInput" placeholder="Physical Address">
+                      <label for="floatingInput">&nbsp; 6. Physical Address</label>
+                      </div>
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="text" required name = 'postal' class="form-control" value='{{data.get("postal")}}' id="floatingPassword" placeholder=" Postal Address">
+                      <label for="floatingPassword">&nbsp; 7. Postal Address</label>
+                      </div>
+                      
+              
+                      
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="email" required name = 'email' class="form-control" value='{{data.get("email")}}' id="floatingInput" placeholder="E-mail address">
+                      <label for="floatingInput">&nbsp; 8. E-mail address</label>
+                      </div>
+                   
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="tel" required name= 'cell' class="form-control" value='{{data.get("cell")}}' id="floatingPassword" placeholder="Cell number">
+                      <label for="floatingPassword">&nbsp; 9. Cell number</label>
+                      </div>
+                     
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                        <input type="text" required name = 'region' value='{{data.get("region")}}' class="form-control" id="floatingPassword" placeholder=" Region">
+                        <label for="floatingPassword">&nbsp; 10. Region</label>
+                        </div>
+                        <div class="form-floating col-md-10 mx-auto mb-3">
+                          <input type="text" required name = 'station' value='{{data.get("station")}}' class="form-control" id="floatingPassword" placeholder=" Station">
+                          <label for="floatingPassword">&nbsp; 11. Station</label>
+                          </div>
+                          <div class="form-floating col-md-10 mx-auto mb-3">
+                            <input type="text" required name = 'num' class="form-control" value='{{data.get("num")}}' id="floatingPassword" placeholder=" Number Of Employees">
+                            <label for="floatingPassword">&nbsp; 12. Number Of Employees</label>
+                            </div>
+                          
+                       <div class="form-floating col-md-10 mx-auto mb-3">
+                      <button type="submit" class="btn btn-primary">Update Profile</button> &nbsp; &nbsp;<a href="{{ url_for('home',error='none') }}"><button type="button" class="btn btn-warning ">Back</button></a>
+                     
+                      </div>
+                      
+                    </form>
+                    <br>
+                    </div>
+                   
+                        </div>
+              </div>
+          </nav>
+        <br><br>
+        <!-- END nav -->
+      </div>
+    
+      </section>
+    
+{% endblock %}
+     

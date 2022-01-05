@@ -11,13 +11,17 @@ body {
 ::-moz-selection {
   background: #000;
   color: #fff; }
-
+a:hover{
+  color: rgb(231, 26, 26);
+}
   .bg-image{
     background-image: url("../images/bg-image.png");
     background-repeat: no-repeat;
-    opacity:0.5;
+    opacity:0.3;
   }
-
+  .bg-menu{
+    opacity:0.8;
+  }
 ::selection {
   background: #000;
   color: #fff; }
