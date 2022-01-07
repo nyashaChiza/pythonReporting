@@ -4,6 +4,54 @@ import os
 import openpyxl
 import json
 app = Flask(__name__)
+
+
+#---------------------------------------------------------------------------------------------------------------------
+def process(wording, spacing):
+    max_len = len(wording)
+    if max_len > spacing:
+        return wording[0:spacing]
+    padding = spacing-max_len
+    for i in range(0, padding):
+        wording = wording+" "
+    return wording
+#---------------------------------------------------------------------------------------------------------------------
+def process(wording, spacing):
+    max_len = len(wording)
+    if max_len > spacing:
+        return wording[0:spacing]
+    padding = spacing-max_len
+    for i in range(0, padding):
+        wording = wording+" "
+    return wording
+#---------------------------------------------------------------------------------------------------------------------
+
+def fix(title,spacing):
+    X = 'New Kim	MDAT	Gender	Last Name	First Name	Academic Title	Birth Date	Date of Entry into Group	Date of Leaving Group	Reason for Leaving the Group	Indicator for Executive	Company Code	Plant identifier for Personal Number	Personal Number	Transfer Date	Cost Center	Employee group	Department Abbreviation	HR Executive Level	Employment Type	STELLENIDENT	Physical work location code	Level of business allocation 1	Level of business allocation 2	Physical work location code	GEBURTSLAND	STAATSANGEH	Currency	MONATSGEHALT	Plant 2/ Center	Plant 1	Position Number	Position Entry Date	HR Department	HR Representative	Management Level	Middle Initial	Home/Host Indicator	Fulltime/ Parttime equivalency	BERICHTETAN	Date of Entry into Company	KZBEHINDERT	Empl ID	NULL	GI_EXIMPAT	ENTGELTGRUPPE	EXECUTIVE_BONUS	    Diversity	ANZ_MONATSGEH	Strukturkennzahl	Dept ID	FTE	Confirmation Status	Plant section	Job Code	Payment Type	SCHICHT	BESCHGR	STATUS_ABR	VERSANDART	RANGSTUFE	NACOS_KOST	TG	TG_BJAHR	GUEAB	SUCHNACHNAME	SUCHVORNAME	BONUS_PAYOUT	Assigned D'
+    c = X.replace("	",',')
+    c =c.split(',')
+    b=[]
+    cx = ''
+    for v in c:
+            max_len = spacing-len(v)
+            b.append(v+ max_len*' ')
+    for e in b:
+        cx = cx+e
+    with open('static/reports2/'+title+'.txt','w', encoding = 'utf-8') as f:
+            f.write(cx)
+#---------------------------------------------------------------------------------------------------------------------
+def gen_report2(path,spacing,title):
+    spacing = 16
+    wb = openpyxl.load_workbook(path)
+    ws = wb.active
+    fix(title,spacing)
+    with open('static/reports2/'+title+'.txt','a', encoding = 'utf-8') as f:
+        for i in range(2, ws.max_column+1):
+            f.write('\n')
+            for j in range(1, ws.max_column+1):
+                cell_obj = ws.cell(row=i, column=j)
+                f.writelines(process(str(cell_obj.value),spacing).replace('.',''))
+
 #---------------------------------------------------------------------------------------------------------------------
 def save_profile(data):
     try:
@@ -228,7 +276,7 @@ def download(name):
     except Exception as e:
         print(e)
         return reports('failed to download file')
-        
+
 
 @app.route("/delete/<string:name>")
 def delete(name):
@@ -240,6 +288,52 @@ def delete(name):
         error = 'Failed to delete File'
     print('deleting ',name)
     return reports(error)
+
+@app.route('/new_report2/', methods=['POST','GET'])
+def new_report2():
+    if request.files and request.method == 'POST' :
+        file = request.files['file']
+        try:
+            os.remove(os.path.join("static/uploads2/", file.filename))
+            file.save(os.path.join("static/uploads2/", file.filename))
+        except:
+            file.save(os.path.join("static/uploads2/", file.filename))
+        data = request.form.to_dict()
+        try:
+            gen_report2(os.path.join("static/uploads2/", file.filename),int(data.get('spacing'))+15,data.get('title'))
+            return reports2('Report was saved successfully')
+        except Exception as e:
+            print(e)
+            return home('failed to save Report')
+    template = 'index2.html'
+    return render_template(template)
+
+@app.route("/download2/<string:name>")
+def download2(name):
+    download_file = name
+    print('downloading ',name)
+    try:
+        return send_from_directory(directory='static/reports2',filename=download_file) 
+    except Exception as e:
+        print(e)
+        return reports2('failed to download file')
+
+@app.route("/reports2/<string:error>/")
+def reports2(error):
+    onlyfiles = [f for f in os.listdir('static/reports2')]
+    template = 'reports2.html'
+    return render_template(template,files=onlyfiles, error = error)
+
+@app.route("/delete2/<string:name>")
+def delete2(name):
+    error = 'Document Deleted Successfully'
+    try:
+        os.remove('static/reports2/'+name)
+    except Exception as e:
+        print(e)
+        error = 'Failed to delete File'
+    print('deleting ',name)
+    return reports2(error)
 
 
 @app.route("/logout/")

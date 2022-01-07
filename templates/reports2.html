@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% block body %} 
+<section>
+<nav class= text-white">
+  <div class="container text-dark text-center">
+    <h1>Other Reports</h1>
+  </div>
+</nav>
+{% if error != 'none' %}
+<div class="mx-auto text-center col-md-7 alert alert-primary alert-dismissible fade show" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    <span class="sr-only">Close</span>
+  </button>
+  <strong>{{error}}</strong> 
+</div>   
+{% endif %}
+		<br>
+<div class="jumbotron col-md-8 mx-auto bg-light skill ">
+<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Actions</th>
+           </tr>
+    </thead>
+    <tbody>
+        {% for item in files %}
+        
+      <tr>
+        <th scope="row">*</th>
+       
+        <td>{{ item }}</td>
+        <td><a href="{{ url_for('download2',name=item) }}"><button type="button" class="btn btn-primary btn-sm">Download</button></a>
+        || <a href="{{ url_for('delete2',name=item) }}"><button type="button" class="btn btn-danger btn-sm">Delete</button></a></td>
+      </tr>
+      {% endfor%}
+    </tbody>
+</table>
+<a href="{{ url_for('home',error='none') }}"><button type="button" class="btn btn-warning btn-md">Back</button></a>
+<br>
+</div>
+</div>
+</section>
+{% endblock %}

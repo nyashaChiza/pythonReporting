@@ -14,36 +14,83 @@ header{% extends 'layout.html' %}
 <div class="container bg-light bg-menu py-5" id="icon-grid">
   <h2 class="pb-2 border-bottom">Menu:</h2>
 
-  <div class="row row-cols-4 g-4 py-5">
-    <div class="col d-flex align-items-start">
-      <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#table"/></svg>
-      <div>
-        <a class = 'text-dark lead' style = 'text-decoration:none;' href = "{{url_for('new_report')}}"><h4 class="fw-bold mb-0">New Report</h4></a>
-        
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+      <div class="col">
+        <div class="card col-md-9 mb-3 rounded-3 shadow-sm ">
+          <div class="card-header py-3">
+            New P2 Report
+          </div>
+          <a class = 'text-dark lead' style = 'text-decoration:none;' href = "{{url_for('new_report')}}">
+          <div class="card-body">
+            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#table"/></svg>
+          </div>
+          </a>
+        </div>
+      </div>
+<div class="col">
+        <div class="card col-md-9 mb-3 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            View P2 Reports
+          </div>
+          <a class = 'text-dark lead' style = 'text-decoration:none;' href = "{{url_for('reports',error='none')}}">
+          <div class="card-body">
+            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#grid"/></svg>
+          </div>
+        </a>
+        </div>
+      </div>
+<div class="col">
+        <div class="card col-md-9 mb-3 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            Profile
+          </div>
+          <a class = 'text-dark lead' style = 'text-decoration:none;' href = "{{url_for('update_profile')}}">
+          <div class="card-body">
+            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#cpu-fill"/></svg>
+          </div>
+        </a>
+        </div>
+      </div>
+    </div>   
+   <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+      <div class="col">
+        <div class="card mb-4 col-md-9 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            New O Report
+          </div>
+          <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('new_report2')}}">
+            <div class="card-body">
+              <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#table"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+<div class="col">
+        <div class="card col-md-9 mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            View O Reports
+          </div>
+          <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('reports2',error='none')}}">
+            <div class="card-body">
+              <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#grid"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+<div class="col">
+        <div class="card mb-4 col-md-9 rounded-3 shadow-sm">
+          <div class="card-header py-3 text-danger">
+            Log Out
+          </div>
+          <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('logout')}}">
+          <div class="card-body">
+            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#collection"/></svg>
+          </div>
+        </a>
+        </div>
       </div>
     </div>
-
-    <div class="col d-flex align-items-start">
-      <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#calendar3"/></svg>
-      <div>
-        <a class = 'text-dark lead' style = 'text-decoration:none;' href = "{{url_for('reports',error='none')}}"><h4 class="fw-bold mb-0">View Reports</h4></a>
-       
-      </div>
-    </div>
-    <div class="col d-flex align-items-start">
-      <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#toggles2"/></svg>
-      <div>
-        <a class = 'text-dark lead' style = 'text-decoration:none;' href = "{{url_for('update_profile')}}"><h4 class="fw-bold mb-0">Profile</h4></a>
-      </div>
-    </div>
-    <div class="col d-flex align-items-start">
-      <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#cpu-fill"/></svg>
-      <div>
-        <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('logout')}}"><h4 class="fw-bold mb-0">Log Out</h4></a>
-        
-      </div>
-    </div>
-  
 
   </div>
 </div>

@@ -1,0 +1,49 @@
+header{% extends 'layout.html' %}
+{% block body %} 
+<header class= text-white">
+  <div class="container text-dark text-center">
+    <h1>The Other Form</h1>
+  </div>
+</header>
+<br>
+<nav class="navbar navbar-expand-md container bg-light skill" >
+                   <div class="container col-md-10 bg-light ">
+                  <div class="col-md-11 mx-auto bg-light" >
+                    <br>
+                    <h2 class="text-muted text-center">Please Enter The Folloing</h2>
+                    <br>
+                    <form action = '{{ url_for("new_report2")}}' enctype='multipart/form-data' method = 'POST'>
+                      
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="text" required name = 'title' class="form-control" id="floatingInput" placeholder="Title">
+                      <label for="floatingInput">&nbsp; 1. Title</label>
+                      </div>
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                        <input type="number" required name = 'spacing' class="form-control" id="floatingInput" placeholder="Spacing">
+                        <label for="floatingInput">&nbsp; 2. Spacing</label>
+                        </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <label for="floatingInput">3. Excel File</label>
+                      <br><div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="file" required name='file' class="form-control" id="floatingInput" placeholder="2. Excel File">
+                      
+                      </div>
+                       <div class="form-floating col-md-10 mx-auto mb-3">
+                      <button type="submit" class="btn btn-primary">Save Report</button> &nbsp; &nbsp; <a href="{{ url_for('home',error='none') }}"><button type="button" class="btn btn-warning btn-md">Back</button></a>
+                     
+                      </div>
+                      
+                    </form>
+                    <br>
+                    </div>
+                   
+                        </div>
+              </div>
+          </nav>
+        <br><br>
+        <!-- END nav -->
+      </div>
+    
+      </section>
+    
+{% endblock %}
+     
