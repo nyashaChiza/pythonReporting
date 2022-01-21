@@ -1,0 +1,51 @@
+header{% extends 'layout.html' %}
+{% block body %} 
+<header class= text-white">
+  <div class="container text-dark text-center">
+    <h1>Find Employee</h1>
+  </div>
+</header>
+<br>
+<nav class="navbar navbar-expand-md container bg-light skill rounded-3" >
+                   <div class="container col-md-10 bg-light rounded-3 ">
+                  <div class="col-md-11 mx-auto bg-light" >
+                    <br><br>
+                    {% if error != None %}
+                    <div class="mx-auto text-center col-md-7 alert alert-primary alert-dismissible fade show" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                      </button>
+                      <strong>{{error}}</strong> 
+                    </div>   
+                    {% endif %}
+                    
+                    <br>
+                    <h2 class="text-muted text-center">Find An Employee</h2>
+                    <br>
+                    <form action = '{{ url_for("get_emp")}}' enctype='multipart/form-data' method = 'GET'>
+                      
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="text" required name = 'kim' class="form-control" maxlength="15" id="floatingInput" placeholder="KIM Number">
+                      <label for="floatingInput">&nbsp; 1. KIM Number</label>
+                      </div>
+                       <div class="form-floating col-md-10 mx-auto mb-3">
+                      <button type="submit" class="btn btn-primary">Search </button> &nbsp; &nbsp; <a href="{{ url_for('home',error='none') }}"><button type="button" class="btn btn-warning btn-md">Back</button></a>
+                     
+                      </div>
+                      
+                    </form>
+                    <br>
+                    </div>
+                   
+                        </div>
+              </div>
+          </nav>
+        <br><br>
+        <!-- END nav -->
+      </div>
+    
+      </section>
+    
+{% endblock %}
+     

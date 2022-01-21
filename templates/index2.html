@@ -10,7 +10,7 @@ header{% extends 'layout.html' %}
                    <div class="container col-md-10 bg-light ">
                   <div class="col-md-11 mx-auto bg-light" >
                     <br>
-                    <h2 class="text-muted text-center">Please Enter The Folloing</h2>
+                    <h2 class="text-muted text-center">Please Enter The Following</h2>
                     <br>
                     <form action = '{{ url_for("new_report2")}}' enctype='multipart/form-data' method = 'POST'>
                       
@@ -22,11 +22,14 @@ header{% extends 'layout.html' %}
                         <input type="number" required name = 'spacing' class="form-control" id="floatingInput" placeholder="Spacing">
                         <label for="floatingInput">&nbsp; 2. Spacing</label>
                         </div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <label for="floatingInput">3. Excel File</label>
-                      <br><div class="form-floating col-md-10 mx-auto mb-3">
-                      <input type="file" required name='file' class="form-control" id="floatingInput" placeholder="2. Excel File">
-                      
-                      </div>
+                        <div class="form-floating col-md-10 mx-auto mb-3">
+                          <input type="date" required name = 'start' class="form-control" id="floatingInput" placeholder="From:">
+                          <label for="floatingInput">&nbsp; 3. From:</label>
+                          </div>
+                          <div class="form-floating col-md-10 mx-auto mb-3">
+                            <input type="date" required name = 'stop' class="form-control" id="floatingInput" placeholder="To:">
+                            <label for="floatingInput">&nbsp; 4. To:</label>
+                            </div>
                        <div class="form-floating col-md-10 mx-auto mb-3">
                       <button type="submit" class="btn btn-primary">Save Report</button> &nbsp; &nbsp; <a href="{{ url_for('home',error='none') }}"><button type="button" class="btn btn-warning btn-md">Back</button></a>
                      

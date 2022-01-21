@@ -1,0 +1,92 @@
+header{% extends 'layout.html' %}
+{% block body %} 
+<header class= text-white">
+  <div class="container text-dark text-center">
+    <h1>Add New Employee</h1>
+  </div>
+</header>
+<br>
+<nav class="navbar navbar-expand-md container bg-light skill rounded-3" >
+                   <div class="container col-md-10 bg-light rounded-3 ">
+                  <div class="col-md-11 mx-auto bg-light" >
+                    <br>
+                    <h2 class="text-muted text-center">Please Enter The Following</h2>
+                    <br>
+                    <form action = '{{ url_for("add_new_employee")}}' enctype='multipart/form-data' method = 'POST'>
+                      
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="text" required name = 'kim' class="form-control" maxlength="15" id="floatingInput" placeholder="KIM">
+                      <label for="floatingInput">&nbsp; 1. KIM</label>
+                      </div>
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                     <select class="form-control" name = 'gender'>
+                         <option value = '1'>Male</option>
+                         <option value = '2'>Female</option>
+                     </select>
+                      <label for="floatingPassword">&nbsp; 2. Gender</label>
+                      </div>
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                        <input type="text" required name = 'fname' class="form-control" id="floatingInput" maxlength="29" placeholder="First Name">
+                        <label for="floatingInput">&nbsp; 3. First Name</label>
+                        </div>
+                      
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                        <input type="text" required name = 'lname' class="form-control" maxlength="29" id="floatingInput" placeholder="Last Name">
+                        <label for="floatingInput">&nbsp; 4. Last Name</label>
+                        </div>
+                        <div class="form-floating col-md-10 mx-auto mb-3">
+                            <input type="date" required name = 'bdate' class="form-control" id="floatingInput" placeholder="Birth Date">
+                            <label for="floatingInput">&nbsp; 5. Birth Date</label>
+                            </div>
+                            <div class="form-floating col-md-10 mx-auto mb-3">
+                                <input type="date" required name = 'entry' class="form-control" id="floatingInput" placeholder="Date of Entry Into Group">
+                                <label for="floatingInput">&nbsp; 6. Date of Entry Into Group</label>
+                                </div>
+                                <div class="form-floating col-md-10 mx-auto mb-3">
+                                    <input type="tel" required name = 'pnumber' class="form-control" maxlength="9" id="floatingInput" placeholder="Personal Number">
+                                    <label for="floatingInput">&nbsp; 7. Personal Number</label>
+                                    </div>
+                                    <div class="form-floating col-md-10 mx-auto mb-3">
+                                        <input type="text" required name = 'egroup' class="form-control" maxlength="1" id="floatingInput" placeholder="Employee Group (Hourly/ Salaried Indicator)">
+                                        <label for="floatingInput">&nbsp; 8. Employee Group (Hourly/ Salaried Indicator)</label>
+                                        </div>
+                                        <div class="form-floating col-md-10 mx-auto mb-3">
+                                            <input type="text" required name = 'hrlevel' class="form-control" id="floatingInput"maxlength="3" placeholder="HR Executive Level">
+                                            <label for="floatingInput">&nbsp; 9. HR Executive Level</label>
+                                            </div>
+                                            <div class="form-floating col-md-10 mx-auto mb-3">
+                                                <input type="text" required name = 'etype' class="form-control" maxlength="3" id="floatingInput" placeholder="Employment Type">
+                                                <label for="floatingInput">&nbsp; 10. Employment Type</label>
+                                                </div>
+                                             <div class="form-floating col-md-10 mx-auto mb-3">
+                                                    <input type="email" required name = 'temail' class="form-control" maxlength="50" id="floatingInput" placeholder="SMTP Email-Address">
+                                                    <label for="floatingInput">&nbsp; 11. SMTP Email-Address</label>
+                                                    </div>
+                                            <div class="form-floating col-md-10 mx-auto mb-3">
+                                                        <input type="text" required name = 'report' maxlength="15" class="form-control" id="floatingInput" placeholder="Reports to KIM">
+                                                        <label for="floatingInput">&nbsp; 12. Reports to KIM</label>
+                                                </div>
+                                                <div class="form-floating col-md-10 mx-auto mb-3">
+                                                    <input type="text" required name = 'position' class="form-control" maxlength="59" id="floatingInput" placeholder="Current Position Title">
+                                                    <label for="floatingInput">&nbsp; 13. Current Position Title</label>
+                                            </div>
+                       <div class="form-floating col-md-10 mx-auto mb-3">
+                      <button type="submit" class="btn btn-primary">Save </button> &nbsp; &nbsp; <a href="{{ url_for('home',error='none') }}"><button type="button" class="btn btn-warning btn-md">Back</button></a>
+                     
+                      </div>
+                      
+                    </form>
+                    <br>
+                    </div>
+                   
+                        </div>
+              </div>
+          </nav>
+        <br><br>
+        <!-- END nav -->
+      </div>
+    
+      </section>
+    
+{% endblock %}
+     
