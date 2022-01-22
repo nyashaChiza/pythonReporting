@@ -9,7 +9,7 @@ from sqlalchemy import DATE,func
 
 #---------------------------------------------------------------------------------------------------------------------
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pajwjd@localhost/petalmsql'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://NyashaChiza:Petalm@123@petalmsql.postgres.database.azure.com/postgres?sslmode=require'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = 'this_is_my_secret_key'
 db = SQLAlchemy(app)
