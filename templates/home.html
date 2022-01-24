@@ -12,7 +12,7 @@ header{% extends 'layout.html' %}
   {% endif %}
 <br>
 <div class="container bg-light bg-menu py-5 rounded-3" id="icon-grid">
-  <h2 class="pb-2 border-bottom">Menu:</h2>
+  <h2 class="pb-2 border-bottom">NAC Menu:</h2>
 
   <div class="container">
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
@@ -53,58 +53,7 @@ header{% extends 'layout.html' %}
         </div>
       </div>
     </div>   
-   <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-      <div class="col">
-        <div class="card mb-4 col-md-9 rounded-2 shadow-sm">
-          <div class="card-header py-3">
-            New EWD Report
-          </div>
-          <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('new_report2')}}">
-            <div class="card-body">
-              <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#table"/></svg>
-            </div>
-          </a>
-        </div>
-      </div>
-<div class="col">
-        <div class="card col-md-9 mb-4 rounded-3 shadow-sm">
-          <div class="card-header py-3">
-            View EWD Reports
-          </div>
-          <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('reports2',error='none')}}">
-            <div class="card-body">
-              <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#grid"/></svg>
-            </div>
-          </a>
-        </div>
-      </div>
-<div class="col">
-        <div class="card mb-4 col-md-9 rounded-3 shadow-sm">
-          <div class="card-header py-3 ">
-            Update Information
-          </div>
-          <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('get_emp')}}">
-          <div class="card-body">
-            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#gear-fill"/></svg>
-          </div>
-        </a>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card mb-4 col-md-9 rounded-3 shadow-sm">
-          <div class="card-header py-3 ">
-            Add New Employee
-          </div>
-          <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('add_new_employee')}}">
-          <div class="card-body">
-            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#collection"/></svg>
-          </div>
-        </a>
-        </div>
-      </div>
-
-    </div>
-
+  
   </div>
 </div>
         <br><br>

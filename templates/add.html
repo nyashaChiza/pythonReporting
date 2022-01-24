@@ -1,0 +1,53 @@
+header{% extends 'layout.html' %}
+{% block body %} 
+<header class= text-white">
+  <div class="container text-dark text-center">
+    <h1>ZIMRA F2 Form</h1>
+  </div>
+</header>
+<br>
+<nav class="navbar navbar-expand-md container bg-light skill rounded-3" >
+                   <div class="container col-md-10 bg-light rounded-3 ">
+                  <div class="col-md-11 mx-auto bg-light" >
+                    <br>
+                    <h2 class="text-muted text-center">Please Enter The Following</h2>
+                    <br>
+                    <form action = '{{ url_for("add")}}' method = 'POST'>
+                      
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                        <input type="email" required name = 'username' class="form-control" id="floatingInput" placeholder="Email">
+                        <label for="floatingInput">&nbsp; 1. Email</label>
+                        </div>
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                      <input type="password" required name = 'password' class="form-control" id="floatingInput" placeholder="Password">
+                     <label  for="floatingInput">&nbsp; 2. Password</label>
+                      </div>
+                      
+                      <div class="form-floating col-md-10 mx-auto mb-3">
+                        <select class="form-control" name = 'user_type'>
+                            <option value = 'ewd'>EWD</option>
+                            <option value = 'nac'>NAC</option>
+                        </select>
+                         <label for="floatingPassword">&nbsp; 3. User Type</label>
+                         </div>
+                      
+                       <div class="form-floating col-md-10 mx-auto mb-3">
+                      <button type="submit" class="btn btn-primary">Save</button> &nbsp; &nbsp; <a href="{{ url_for('home',error='none') }}"><button type="button" class="btn btn-warning btn-md">Back</button></a>
+                     
+                      </div>
+                      
+                    </form>
+                    <br>
+                    </div>
+                   
+                        </div>
+              </div>
+          </nav>
+        <br><br>
+        <!-- END nav -->
+      </div>
+    
+      </section>
+    
+{% endblock %}
+     

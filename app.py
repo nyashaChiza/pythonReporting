@@ -14,6 +14,11 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = 'this_is_my_secret_key'
 db = SQLAlchemy(app)
 #---------------------------------------------------------------------------------------------------------------------
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(85),  nullable=False)
+    password = db.Column(db.String(30), nullable=False)
+    user_type = db.Column(db.String(30), nullable=False)
 
 class A_I(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -323,6 +328,11 @@ class GX_HK(db.Model):
     ivv_control_unit = db.Column(db.String(1))
     date_entry = db.Column(db.Date,  default=date.today())
 #---------------------------------------------------------------------------------------------------------------------
+def save_user(data):
+    user  = Users(username=data.get('username'),password=data.get('password'),user_type=data.get('user_type'))
+    db.session.add(user)
+    db.session.commit()
+#---------------------------------------------------------------------------------------------------------------------
 def load_data():
     file = 'static/uploads2/test.xlsx'
     wb_obj = load_workbook(filename=file)
@@ -467,17 +477,8 @@ def test_gen(obj,spacing,title):
                 f.write('\n')
                 for attr,value in vars(xy).items():
                     if  attr.startswith('_')==False  and attr!='id' and attr!='kim' and attr!='date_entry' :
-                        #data.append(value)
                         f.writelines(process(str(value),spacing).replace('.',''))
-                        print(attr)
-                
-        
-        #for i in data:
-        #    f.write('\n')
-       #     print(i)
-      #      f.writelines(process(str(i),spacing).replace('.',''))
-
-     
+                        print(attr)     
 #---------------------------------------------------------------------------------------------------------------------
 
 def save_profile(data):
@@ -639,8 +640,13 @@ def gen_report(data3, data2):
         document.write(doc_path)
     except:
         document.write(doc_path)
-  
-#-------------------------------------------------------------
+#-----------------------------------------------------------------------
+def auth(email, password):
+    user =Users.query.filter_by(username=email, password=password).first()
+    if user != None:
+        return user
+    return None
+#-----------------------------------------------------------------------
 @app.route('/', methods=['POST','GET'])
 def index():
    
@@ -648,8 +654,12 @@ def index():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        if email =='client@petalmafrica.com' and password == 'client@123':
-            return home('none')
+        user = auth(email,password)
+        if user != None:
+            if user.user_type =='nac':
+                return home('none')    
+            if user.user_type =='ewd':
+                return home1('none')
         else:
             error = 'invalid log in details'
     template = 'sign-in.html'
@@ -680,6 +690,13 @@ def home(error):
     template = 'home.html'
     return render_template(template,error=error)
 
+
+@app.route('/home1/<string:error>/')
+def home1(error):
+    template = 'home1.html'
+    return render_template(template,error=error)
+
+
 @app.route('/update_profile/', methods=['POST','GET'])
 def update_profile():
     if request.method == 'POST':
@@ -690,12 +707,22 @@ def update_profile():
     data = get_profile()
     return render_template(template,data=data)
 
+@app.route('/add/', methods=['POST','GET'])
+def add():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        save_user(data)
+        return home('User Added Successful')
+    template='add.html'
+    return render_template(template)
+
+
 @app.route('/add_new_employee/', methods=['POST','GET'])
 def add_new_employee():
     if request.method == 'POST':
         data = request.form.to_dict()
         save_emp(data)
-        return home('Employee Information Successfully')
+        return home1('Employee Information Successfully')
     template = 'manage.html'
     data = get_profile()
     return render_template(template,data=data)
@@ -718,7 +745,7 @@ def get_emp():
         return render_template(template,error=error)
     except Exception as e:
         print(e)
-        return home(e)
+        return home1(e)
 
 
 @app.route('/update_data<string:emp>/', methods=['POST','GET'])
@@ -881,7 +908,7 @@ def new_report2():
         return render_template(template)
     except Exception as e:
         print(e)
-        return home(e)
+        return home1(e)
 
 
 @app.route("/download2/<string:name>")
@@ -893,6 +920,8 @@ def download2(name):
         except Exception as e:
             print(e)
             return reports2('failed to download file')
+
+
 @app.route("/reports2/<string:error>/")
 def reports2(error):
     try:
@@ -901,7 +930,7 @@ def reports2(error):
         return render_template(template,files=onlyfiles, error = error)
     except Exception as e:
         print(e)
-        return home(e)
+        return home1(e)
     
 @app.route("/delete2/<string:name>")
 def delete2(name):
