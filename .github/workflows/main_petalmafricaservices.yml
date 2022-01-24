@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'PetalmAfricaServices'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EAABAE6974EE437593A2BE03B4BFFA1D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6F48F8589BC94EC7A735761395FA1E2F }}
