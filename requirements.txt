@@ -1,3 +1,5 @@
 docx-mailmerge==0.5.0
 Flask==0.12.2
 openpyxl==3.0.7
+Flask-SQLAlchemy == 2.5.1
+docx-mailmerge == 0.5.0
