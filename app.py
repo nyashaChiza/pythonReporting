@@ -705,7 +705,6 @@ def get_emp():
     error=None
     if request.method == 'GET':
         data = request.args.to_dict()
-        
         emp = A_I.query.filter_by(kim=data.get('kim')).first()
         if emp!=None and data.get("kim")!=None:
             error =None
@@ -716,7 +715,6 @@ def get_emp():
                 error =None
     template = 'search.html'
     return render_template(template,error=error)
-
 
 
 @app.route('/update_data<string:emp>/', methods=['POST','GET'])
@@ -783,9 +781,15 @@ def update_data(emp):
 
 @app.route("/reports/<string:error>/")
 def reports(error):
-    onlyfiles = [f for f in os.listdir('static/reports')]
-    template = 'reports.html'
-    return render_template(template,files=onlyfiles, error = error)
+    try:
+        onlyfiles = [f for f in os.listdir('static/reports')]
+        template = 'reports.html'
+        return render_template(template,files=onlyfiles, error = error)
+
+    except Exception as e:
+        print(e)    
+        template = 'reports.html'
+        return home(e)
 
 
 @app.route("/download/<string:name>")
@@ -883,10 +887,14 @@ def download2(name):
 
 @app.route("/reports2/<string:error>/")
 def reports2(error):
-    onlyfiles = [f for f in os.listdir('static/reports2')]
-    template = 'reports2.html'
-    return render_template(template,files=onlyfiles, error = error)
-
+    try:
+        onlyfiles = [f for f in os.listdir('static/reports2')]
+        template = 'reports2.html'
+        return render_template(template,files=onlyfiles, error = error)
+    except Exception as e:
+        print(e)
+        return home(e)
+    
 @app.route("/delete2/<string:name>")
 def delete2(name):
     error = 'Document Deleted Successfully'
