@@ -9,7 +9,7 @@ from sqlalchemy import DATE,func
 
 #---------------------------------------------------------------------------------------------------------------------
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://NyashaChiza:Petalm@123@petalmsql.postgres.database.azure.com/postgres?sslmode=require'
+app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://NyashaChiza:Chiz@mpeni95@petalmsql.postgres.database.azure.com/postgres?sslmode=require'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = 'this_is_my_secret_key'
 db = SQLAlchemy(app)
@@ -429,7 +429,7 @@ def gen_report2(obj,spacing,title):
     gn =obj.get('GN_GW')
     gx =obj.get('GX_HK')
     #fix(title,int(spacing))
-    for c in range(0,len(obj.get('A_I'))):
+    for c in range(0,len(obj.get('A_I'))-1):
         data.append([a[c].kim, a[c].sin,a[c].gender,a[c].first_name,a[c].last_name,a[c].last_name_prefix,a[c].academic_title,a[c].filler1,a[c].birth_date,
                                 j[c].country_code, j[c].postal_code,j[c].city,j[c].c_o,j[c].filler2,j[c].filler3,j[c].filler4,j[c].country_code_mail_address,j[c].postal_code_mail_address,j[c].city_mail_address,
                                 t[c].date_of_entry_into_group,t[c].date_of_leaving_group,t[c].reason_for_leaving_the_group,t[c].bank_code,t[c].bank_account_number,t[c].swift_bic, t[c].owner_of_bank_account,t[c].employee_with_potential,t[c].indicator_for_executive,t[c].indicator_for_security_advisor,
@@ -495,7 +495,7 @@ def get_profile():
     data = {}
     with open('static/profiles/profiles.json','r',encoding = 'utf-8') as f:
         try:
-            data = json.load(f)
+            data = json.load(f)        
         except Exception as e:
             print(e)
     return data
