@@ -9,7 +9,7 @@ from sqlalchemy import DATE,func
 
 #---------------------------------------------------------------------------------------------------------------------
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://NyashaChiza:Chiz@mpeni95@petalmsql.postgres.database.azure.com/postgres?sslmode=require'
+app.config['SQLALCHEMY_DATABASE_URI'] ='postgresql://NyashaChiza:Chiz@mpeni95@petalmsql.postgres.database.azure.com/postgres?sslmode=require'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = 'this_is_my_secret_key'
 db = SQLAlchemy(app)
@@ -703,18 +703,22 @@ def add_new_employee():
 @app.route('/get_emp/', methods=['POST','GET'])
 def get_emp():
     error=None
-    if request.method == 'GET':
-        data = request.args.to_dict()
-        emp = A_I.query.filter_by(kim=data.get('kim')).first()
-        if emp!=None and data.get("kim")!=None:
-            error =None
-            return update_data(data.get("kim"))
-        elif emp==None and data.get("kim")!=None:
-                    error ='Could not find employee "'+str(data.get('kim'))+'" '
-        else:
+    try:
+        if request.method == 'GET':
+            data = request.args.to_dict()
+            emp = A_I.query.filter_by(kim=data.get('kim')).first()
+            if emp!=None and data.get("kim")!=None:
                 error =None
-    template = 'search.html'
-    return render_template(template,error=error)
+                return update_data(data.get("kim"))
+            elif emp==None and data.get("kim")!=None:
+                        error ='Could not find employee "'+str(data.get('kim'))+'" '
+            else:
+                    error =None
+        template = 'search.html'
+        return render_template(template,error=error)
+    except Exception as e:
+        print(e)
+        return home(e)
 
 
 @app.route('/update_data<string:emp>/', methods=['POST','GET'])
@@ -816,75 +820,79 @@ def delete(name):
 
 @app.route('/new_report2/', methods=['POST','GET'])
 def new_report2():
-    if  request.method == 'POST' :
-        data = request.form.to_dict()
-        start = data.get('start')
-        stop = data.get('stop')
-        rep = A_I.query.filter(A_I.date_entry > func.DATE(start), A_I.date_entry < func.DATE(stop)).all()
-        rep1 = J_S.query.filter(J_S.date_entry > func.DATE(start), J_S.date_entry < func.DATE(stop)).all()
-        rep2 = T_AC.query.filter(T_AC.date_entry > func.DATE(start), T_AC.date_entry < func.DATE(stop)).all()
-        rep3 = AD_AN.query.filter(AD_AN.date_entry > func.DATE(start),AD_AN.date_entry < func.DATE(stop)).all()
-        rep4 = AM_AW.query.filter(AM_AW.date_entry > func.DATE(start), AM_AW.date_entry < func.DATE(stop)).all()
-        rep5 = AX_BG.query.filter(AX_BG.date_entry > func.DATE(start), AX_BG.date_entry < func.DATE(stop)).all()
-        rep6 = BH_BQ.query.filter(BH_BQ.date_entry > func.DATE(start), BH_BQ.date_entry < func.DATE(stop)).all()
-        rep7 = BR_CA.query.filter(BR_CA.date_entry > func.DATE(start), BR_CA.date_entry < func.DATE(stop)).all()
-        rep8 = CB_CW.query.filter(CB_CW.date_entry > func.DATE(start), CB_CW.date_entry < func.DATE(stop)).all()
-        rep9 = CX_DG.query.filter(CX_DG.date_entry > func.DATE(start), CX_DG.date_entry < func.DATE(stop)).all()
-        rep10 = DH_DQ.query.filter(DH_DQ.date_entry > func.DATE(start), DH_DQ.date_entry < func.DATE(stop)).all()
-        rep11 = DR_EA.query.filter(DR_EA.date_entry > func.DATE(start), DR_EA.date_entry < func.DATE(stop)).all()
-        rep12 = EB_EK.query.filter(EB_EK.date_entry > func.DATE(start), EB_EK.date_entry < func.DATE(stop)).all()
-        rep13 = EL_EY.query.filter(EL_EY.date_entry > func.DATE(start), EL_EY.date_entry < func.DATE(stop)).all()
-        rep14 = EZ_FI.query.filter(EZ_FI.date_entry > func.DATE(start), EZ_FI.date_entry < func.DATE(stop)).all()
-        rep15 = FJ_FS.query.filter(FJ_FS.date_entry > func.DATE(start), FJ_FS.date_entry < func.DATE(stop)).all()
-        rep16 = FT_GC.query.filter(FT_GC.date_entry > func.DATE(start), FT_GC.date_entry < func.DATE(stop)).all()
-        rep17 = GD_GM.query.filter(GD_GM.date_entry > func.DATE(start), GD_GM.date_entry < func.DATE(stop)).all()
-        rep18 = GN_GW.query.filter(GN_GW.date_entry > func.DATE(start), GN_GW.date_entry < func.DATE(stop)).all()
-        rep19 = GX_HK.query.filter(GX_HK.date_entry > func.DATE(start), GX_HK.date_entry < func.DATE(stop)).all()
-        print('rows: ',len(rep))
-        obj= {}
-        obj['A_I'] =rep
-        obj['J_S'] = rep1
-        obj['T_AC'] = rep2
-        obj['AD_AN'] = rep3
-        obj['AM_AW'] = rep4
-        obj['AX_BG'] = rep5
-        obj['BH_BQ'] = rep6
-        obj['BR_CA'] = rep7
-        obj['CB_CW'] = rep8
-        obj['CX_DG'] = rep9
-        obj['DH_DQ'] = rep10
-        obj['DR_EA'] = rep11
-        obj['EB_EK'] = rep12
-        obj['EL_EY'] = rep13
-        obj['EZ_FI'] = rep14
-        obj['FJ_FS'] = rep15
-        obj['FT_GC'] = rep16
-        obj['GD_GM'] = rep17
-        obj['GN_GW'] = rep18
-        obj['GX_HK'] = rep19     
-        if len(rep)<1:
-            return reports2('No data was saved within this time period')
-        else:
-            try:
-                gen_report2(obj,data.get('spacing'),data.get('title'))
-          
-                return reports2('Report was saved successfully')
-            except Exception as e:
-               print(e)
-               return home('failed to save Report, please try again with different dates')
-    template = 'index2.html'
-    return render_template(template)
+    try:
+        if  request.method == 'POST' :
+            data = request.form.to_dict()
+            start = data.get('start')
+            stop = data.get('stop')
+            rep = A_I.query.filter(A_I.date_entry > func.DATE(start), A_I.date_entry < func.DATE(stop)).all()
+            rep1 = J_S.query.filter(J_S.date_entry > func.DATE(start), J_S.date_entry < func.DATE(stop)).all()
+            rep2 = T_AC.query.filter(T_AC.date_entry > func.DATE(start), T_AC.date_entry < func.DATE(stop)).all()
+            rep3 = AD_AN.query.filter(AD_AN.date_entry > func.DATE(start),AD_AN.date_entry < func.DATE(stop)).all()
+            rep4 = AM_AW.query.filter(AM_AW.date_entry > func.DATE(start), AM_AW.date_entry < func.DATE(stop)).all()
+            rep5 = AX_BG.query.filter(AX_BG.date_entry > func.DATE(start), AX_BG.date_entry < func.DATE(stop)).all()
+            rep6 = BH_BQ.query.filter(BH_BQ.date_entry > func.DATE(start), BH_BQ.date_entry < func.DATE(stop)).all()
+            rep7 = BR_CA.query.filter(BR_CA.date_entry > func.DATE(start), BR_CA.date_entry < func.DATE(stop)).all()
+            rep8 = CB_CW.query.filter(CB_CW.date_entry > func.DATE(start), CB_CW.date_entry < func.DATE(stop)).all()
+            rep9 = CX_DG.query.filter(CX_DG.date_entry > func.DATE(start), CX_DG.date_entry < func.DATE(stop)).all()
+            rep10 = DH_DQ.query.filter(DH_DQ.date_entry > func.DATE(start), DH_DQ.date_entry < func.DATE(stop)).all()
+            rep11 = DR_EA.query.filter(DR_EA.date_entry > func.DATE(start), DR_EA.date_entry < func.DATE(stop)).all()
+            rep12 = EB_EK.query.filter(EB_EK.date_entry > func.DATE(start), EB_EK.date_entry < func.DATE(stop)).all()
+            rep13 = EL_EY.query.filter(EL_EY.date_entry > func.DATE(start), EL_EY.date_entry < func.DATE(stop)).all()
+            rep14 = EZ_FI.query.filter(EZ_FI.date_entry > func.DATE(start), EZ_FI.date_entry < func.DATE(stop)).all()
+            rep15 = FJ_FS.query.filter(FJ_FS.date_entry > func.DATE(start), FJ_FS.date_entry < func.DATE(stop)).all()
+            rep16 = FT_GC.query.filter(FT_GC.date_entry > func.DATE(start), FT_GC.date_entry < func.DATE(stop)).all()
+            rep17 = GD_GM.query.filter(GD_GM.date_entry > func.DATE(start), GD_GM.date_entry < func.DATE(stop)).all()
+            rep18 = GN_GW.query.filter(GN_GW.date_entry > func.DATE(start), GN_GW.date_entry < func.DATE(stop)).all()
+            rep19 = GX_HK.query.filter(GX_HK.date_entry > func.DATE(start), GX_HK.date_entry < func.DATE(stop)).all()
+            print('rows: ',len(rep))
+            obj= {}
+            obj['A_I'] =rep
+            obj['J_S'] = rep1
+            obj['T_AC'] = rep2
+            obj['AD_AN'] = rep3
+            obj['AM_AW'] = rep4
+            obj['AX_BG'] = rep5
+            obj['BH_BQ'] = rep6
+            obj['BR_CA'] = rep7
+            obj['CB_CW'] = rep8
+            obj['CX_DG'] = rep9
+            obj['DH_DQ'] = rep10
+            obj['DR_EA'] = rep11
+            obj['EB_EK'] = rep12
+            obj['EL_EY'] = rep13
+            obj['EZ_FI'] = rep14
+            obj['FJ_FS'] = rep15
+            obj['FT_GC'] = rep16
+            obj['GD_GM'] = rep17
+            obj['GN_GW'] = rep18
+            obj['GX_HK'] = rep19     
+            if len(rep)<1:
+                return reports2('No data was saved within this time period')
+            else:
+                try:
+                    gen_report2(obj,data.get('spacing'),data.get('title'))
+            
+                    return reports2('Report was saved successfully')
+                except Exception as e:
+                    print(e)
+                return home('failed to save Report, please try again with different dates')
+        template = 'index2.html'
+        return render_template(template)
+    except Exception as e:
+        print(e)
+        return home(e)
+
 
 @app.route("/download2/<string:name>")
 def download2(name):
-    download_file = name
-    print('downloading ',name)
-    try:
-        return send_from_directory(directory='static/reports2',filename=download_file) 
-    except Exception as e:
-        print(e)
-        return reports2('failed to download file')
-
+        download_file = name
+        print('downloading ',name)
+        try:
+            return send_from_directory(directory='static/reports2',filename=download_file) 
+        except Exception as e:
+            print(e)
+            return reports2('failed to download file')
 @app.route("/reports2/<string:error>/")
 def reports2(error):
     try:
