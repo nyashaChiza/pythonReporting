@@ -6,10 +6,11 @@ from openpyxl import load_workbook
 import json
 from datetime import date
 from sqlalchemy import DATE,func
+import bcrypt
 
 #---------------------------------------------------------------------------------------------------------------------
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] ='postgresql://NyashaChiza:Ch!zampeni95@petalmsql.postgres.database.azure.com/postgres?sslmode=require'
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///Content.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = 'this_is_my_secret_key'
 db = SQLAlchemy(app)
@@ -17,9 +18,9 @@ db = SQLAlchemy(app)
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(85),  nullable=False)
-    password = db.Column(db.String(30), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
     user_type = db.Column(db.String(30), nullable=False)
-
+    
 class A_I(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     kim = db.Column(db.String(15),  nullable=False)
@@ -329,7 +330,9 @@ class GX_HK(db.Model):
     date_entry = db.Column(db.Date,  default=date.today())
 #---------------------------------------------------------------------------------------------------------------------
 def save_user(data):
-    user  = Users(username=data.get('username'),password=data.get('password'),user_type=data.get('user_type'))
+    hashed_password = bcrypt.hashpw(data.get('password').encode('utf8'), bcrypt.gensalt(14))
+   # hashed_email = bcrypt.hashpw(data.get('username').encode('utf8'), bcrypt.gensalt(14))
+    user  = Users(username=data.get('username'),password=hashed_password,user_type='client')
     db.session.add(user)
     db.session.commit()
 #---------------------------------------------------------------------------------------------------------------------
@@ -642,53 +645,27 @@ def gen_report(data3, data2):
         document.write(doc_path)
 #-----------------------------------------------------------------------
 def auth(email, password):
-    user =Users.query.filter_by(username=email, password=password).first()
-    if user != None:
-        return user
+    user =Users.query.filter_by(username=email).first()
+    if user !=None:
+        if bcrypt.checkpw(password.encode('utf8'), user.password):
+            print(user.id)
+            return user
     return None
 #-----------------------------------------------------------------------
 @app.route('/', methods=['POST','GET'])
 def index():
-   
     error = 'none'
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
         user = auth(email,password)
         if user != None:
-            if user.user_type =='nac':
-                return home('none')    
-            if user.user_type =='ewd':
                 return home1('none')
         else:
             error = 'invalid log in details'
     template = 'sign-in.html'
     return render_template(template, error = error)
 
-@app.route('/new_report/', methods=['POST','GET'])
-def new_report():
-    if request.files and request.method == 'POST' :
-        file = request.files['file']
-        try:
-            os.remove(os.path.join("static/uploads/", file.filename))
-            file.save(os.path.join("static/uploads/", file.filename))
-        except:
-            file.save(os.path.join("static/uploads/", file.filename))
-        data = request.form.to_dict()
-        try:
-            #print(get_data(os.path.join("static/uploads/", file.filename)))
-            gen_report(data, get_data(os.path.join("static/uploads/", file.filename)))
-            return reports('Report was saved successfully')
-        except Exception as e:
-            print(e)
-            return home('failed to save Report')
-    template = 'index.html'
-    return render_template(template)
-
-@app.route('/home/<string:error>/')
-def home(error):
-    template = 'home.html'
-    return render_template(template,error=error)
 
 
 @app.route('/home1/<string:error>/')
@@ -697,22 +674,13 @@ def home1(error):
     return render_template(template,error=error)
 
 
-@app.route('/update_profile/', methods=['POST','GET'])
-def update_profile():
-    if request.method == 'POST':
-        data = request.form.to_dict()
-        save_profile(data)
-        return home('Profile Update Successful')
-    template = 'profiles.html'
-    data = get_profile()
-    return render_template(template,data=data)
-
-@app.route('/add/', methods=['POST','GET'])
-def add():
+@app.route('/adds/', methods=['POST','GET'])
+def adds():
+    print('adding Ne uSer')
     if request.method == 'POST':
         data = request.form.to_dict()
         save_user(data)
-        return home('User Added Successful')
+        return home1('User Added Successful')
     template='add.html'
     return render_template(template)
 
@@ -727,10 +695,17 @@ def add_new_employee():
     data = get_profile()
     return render_template(template,data=data)
 
+@app.route('/headcount/', methods=['POST','GET'])
+def headcount():
+    template = 'headcount.html'
+    return render_template(template,error=None)
+
+
 @app.route('/get_emp/', methods=['POST','GET'])
 def get_emp():
     error=None
     try:
+        
         if request.method == 'GET':
             data = request.args.to_dict()
             emp = A_I.query.filter_by(kim=data.get('kim')).first()
@@ -804,7 +779,7 @@ def update_data(emp):
         emp18.date_entry = date.today()
         emp19.date_entry = date.today()
         db.session.commit()
-        return home('Information Update Successful')
+        return home1('Information Update Successful')
     template = 'update.html'
     emp_data = {'kim':emp1.kim,'fname':emp1.first_name,'lname':emp1.last_name,'bdate':emp1.birth_date,'entry':emp2.date_of_entry_into_group,'pnumber':emp3.personal_number,'egroup':emp4.employee_group,'hrlevel':emp4.hr_executive_level,'etype':emp4.employment_type,'stemail':emp5.smtp_email_address,'report':emp6.reports_to_kim,'position':emp7.current_position_title}
 
@@ -820,7 +795,7 @@ def reports(error):
     except Exception as e:
         print(e)    
         template = 'reports.html'
-        return home(e)
+        return home1(e)
 
 
 @app.route("/download/<string:name>")
@@ -903,7 +878,7 @@ def new_report2():
                     return reports2('Report was saved successfully')
                 except Exception as e:
                     print(e)
-                return home('failed to save Report, please try again with different dates')
+                return home1('failed to save Report, please try again with different dates')
         template = 'index2.html'
         return render_template(template)
     except Exception as e:
@@ -946,7 +921,7 @@ def delete2(name):
 
 @app.route("/logout/")
 def logout():
-    #session['user'] = None
+    session['user'] = None
     return index() 
 
 

@@ -54,11 +54,35 @@ header{% extends 'layout1.html' %}
       <div class="col">
         <div class="card mb-4 col-md-9 rounded-3 shadow-sm">
           <div class="card-header py-3 ">
+            New Headcount Report
+          </div>
+          <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('headcount')}}">
+          <div class="card-body">
+            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#table"/></svg>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card mb-4 col-md-9 rounded-3 shadow-sm">
+          <div class="card-header py-3 ">
             Add New Employee
           </div>
           <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('add_new_employee')}}">
           <div class="card-body">
             <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#collection"/></svg>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card mb-4 col-md-9 rounded-3 shadow-sm">
+          <div class="card-header py-3 ">
+            Terminate Employee
+          </div>
+          <a class = 'text-danger lead' style = 'text-decoration:none;' href = "{{url_for('add_new_employee')}}">
+          <div class="card-body">
+            <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#people-circle"/></svg>
           </div>
         </a>
         </div>
